@@ -1,0 +1,66 @@
+import random
+
+def tebak_kata():
+    # Daftar kata yang akan ditebak
+    daftar_kata = ['aset', 'liabilitas', 'equitas', 'laba', 'neraca', 'debit','kredit','jurnal','auditor']
+    
+    # Pilih kata secara acak
+    kata_rahasia = random.choice(daftar_kata)
+    panjang_kata = len(kata_rahasia)
+    
+    # Inisialisasi variabel
+    kata_tertebak = [''] * panjang_kata # Tampilan awal (contoh: ['', '', '', '', '', '_'])
+    percobaan_maksimal = 6
+    percobaan_saat_ini = 0
+    huruf_yang_sudah_ditebak = set()
+    
+    print("Selamat datang di Game Tebak Kata!")
+    print(f"Kata ini memiliki {panjang_kata} huruf.")
+    print(" ".join(kata_tertebak))
+    
+    # Loop utama permainan
+    while percobaan_saat_ini < percobaan_maksimal and "_" in kata_tertebak:
+        print("\n" + "="*30)
+        print(f"Sisa kesempatan: {percobaan_maksimal - percobaan_saat_ini}")
+        
+        # Minta input dari pengguna
+        tebakan = input("Tebak satu huruf: ").lower()
+        
+        # Validasi Input
+        if len(tebakan) != 1 or not tebakan.isalpha():
+            print("Masukkan hanya satu huruf saja yang valid.")
+            continue
+        
+        if tebakan in huruf_yang_sudah_ditebak:
+            print(f"Anda sudah pernah menebak huruf '{tebakan}'. Coba huruf lain.")
+            continue
+            
+        # Tambahkan tebakan ke set huruf yang sudah ditebak
+        huruf_yang_sudah_ditebak.add(tebakan)
+        
+        # Cek apakah tebakan benar
+        if tebakan in kata_rahasia:
+            print(f"👍 Benar! Huruf '{tebakan}' ada di dalam kata.")
+            
+            # Update kata_tertebak
+            for i in range(panjang_kata):
+                if kata_rahasia[i] == tebakan:
+                    kata_tertebak[i] = tebakan
+        else:
+            percobaan_saat_ini += 1
+            print(f"👎 Salah! Huruf '{tebakan}' tidak ada dalam kata.")
+            
+        print("Status Kata: " + " ".join(kata_tertebak))
+        print(f"Huruf yang sudah ditebak: {sorted(list(huruf_yang_sudah_ditebak))}")
+        
+    # Hasil akhir
+    print("\n" + "="*30)
+    if "_" not in kata_tertebak:
+        print(f"🎉 SELAMAT! Anda berhasil menebak kata akuntansi: *{kata_rahasia.upper()}*")
+    else:
+        print(f"❌ yahh..GAME OVER! Kesempatan Anda habis.")
+        print(f"Kata rahasianya adalah: *{kata_rahasia.upper()}*")
+
+# Panggil fungsi untuk memulai permainan
+if _name_ == "_main_":
+    tebak_kata()
